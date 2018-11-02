@@ -47,29 +47,135 @@ tags:OpenCV利用OpenCV+OpenCV-contrib生成自己的数据集，并且识别。
     <div class="main">
         <h1 class="title"></h1>
         <div class="stuff">
-            <span>十一月 01, 2018</span>
+            <span>十一月 02, 2018</span>
             
 
         </div>
         <div class="content markdown">
             <hr>
-<h2 id="title-kevin-onepiece"><a href="#title-kevin-onepiece" class="headerlink" title="title: kevin-onepiece"></a>title: kevin-onepiece</h2><p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new <span class="string">"My New Post"</span>
+<p>title: 利用OpenCV训练自己的数据集<br>date: 2018-11-02 18:54:10</p>
+<h2 id="tags-OpenCV"><a href="#tags-OpenCV" class="headerlink" title="tags:OpenCV"></a>tags:OpenCV</h2><p>利用OpenCV+OpenCV-contrib生成自己的数据集，并且识别。第一次markdown写博客，将就点吧。。。</p>
+<p>###先说下环境：anaconda，spyder，Windows10，python3，OpenCV3<br>我的最终目录是这样的：</p>
+<p>dataset(文件夹)</p>
+<p> &amp;emsp8000.fuqiang.1.jpg</p>
+<p>&amp;emsp8000.fuqiang.1.jpg</p>
+<p> ……..</p>
+<p>getFace.py</p>
+<p>getXml.py</p>
+<p>shibiefuqiang.py</p>
+<p>train.xml</p>
+<p>haarcascade_frontalface_default.xml</p>
+<h2 id="步骤-一：采集自己的照片（getFace-py）"><a href="#步骤-一：采集自己的照片（getFace-py）" class="headerlink" title="步骤 一：采集自己的照片（getFace.py）"></a>步骤 一：采集自己的照片（getFace.py）</h2><pre><code>
+import cv2
+
+
+Name = input(&apos;enter your Name: &apos;)
+ID = input(&apos;enter your Id: &apos;)
+cap = cv2.VideoCapture(0)
+sampleNum = 0
+
+while True:
+    ret, img = cap.read()
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    detector = cv2.CascadeClassifier(&apos;haarcascade_frontalface_default.xml&apos;)
+    faces = detector.detectMultiScale(gray, 1.3, 5)
+    for (x, y, w, h) in faces:
+        cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
+
+        # incrementing sample number
+        sampleNum = sampleNum + 1
+        # saving the captured face in the dataset folder
+        cv2.imwrite(&quot;dataSet&quot;+&quot;/&quot;+str(ID) +&quot;.&quot;+ str(Name) + &apos;.&apos; + str(sampleNum) + &quot;.jpg&quot;, gray[y:y + h, x:x + w])  #
+
+        cv2.imshow(&apos;frame&apos;, img)
+    # wait for 100 miliseconds
+    if cv2.waitKey(100) &amp; 0xFF == ord(&apos;q&apos;):
+        break
+    # break if the sample number is morethan 20
+    elif sampleNum &gt; 20:
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+
+</code></pre><p>##步骤二：训练自己训练集（getXml.py）</p>
+<pre><code># -*- coding: utf-8 -*-
+import cv2
+import os
+import numpy as np
+from PIL import Image
+
+# recognizer = cv2.createLBPHFaceRecognizer()
+detector = cv2.CascadeClassifier(&quot;haarcascade_frontalface_default.xml&quot;)
+recognizer = cv2.face.LBPHFaceRecognizer_create()
+
+def get_images_and_labels(path):
+    image_paths = [os.path.join(path, f) for f in os.listdir(path)]
+    face_samples = []
+    ids = []
+
+    for image_path in image_paths:
+        image = Image.open(image_path)
+        image_np = np.array(image, &apos;uint8&apos;)#将列表转化为一个数组，并且指定类型为unit8(无符号整数，0到255)
+#        if os.path.split(image_path)[-1].split(&quot;.&quot;)[-1] != &apos;jpg&apos;:
+#            continue
+#        image_id = int(os.path.split(image_path)[-1].split(&quot;.&quot;)[1])
+        if os.path.split(image_path)[-1].split(&quot;.&quot;)[-1]!=&apos;jpg&apos;:
+            continue
+        image_id=int(os.path.split(image_path)[-1].split(&quot;.&quot;)[0])
+        faces = detector.detectMultiScale(image_np)
+        for (x, y, w, h) in faces:
+            face_samples.append(image_np[y:y + h, x:x + w])
+            ids.append(image_id)
+
+    return face_samples, ids
+
+faces, Ids = get_images_and_labels(&apos;dataSet&apos;)
+recognizer.train(faces, np.array(Ids))
+recognizer.save(&apos;trainner.xml&apos;)
+
+
+</code></pre><p>步骤三：通过自己的训练集识别自己（shibiefuqiang.py）</p>
+<pre><code>import cv2
+
+
+recognizer = cv2.face.LBPHFaceRecognizer_create()
+# recognizer = cv2.createLBPHFaceRecognizer() # in OpenCV 2
+recognizer.read(&apos;trainner.xml&apos;)
+# recognizer.load(&apos;trainner/trainner.yml&apos;) # in OpenCV 2
+
+cascade_path = &quot;haarcascade_frontalface_default.xml&quot;
+face_cascade = cv2.CascadeClassifier(cascade_path)
+cam = cv2.VideoCapture(0)
+# font = cv2.cv.InitFont(cv2.cv.CV_FONT_HERSHEY_SIMPLEX, 1, 1, 0, 1, 1) # in OpenCV 2
+font = cv2.FONT_HERSHEY_SIMPLEX
+
+while True:
+    ret, im = cam.read()
+#    im=cv2.imread(&quot;lan.jpg&quot;)
+#    im = cv2.resize(im, (400, 400), interpolation=cv2.INTER_CUBIC)
+    gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+    faces = face_cascade.detectMultiScale(gray, 1.2, 5)
+    for (x, y, w, h) in faces:
+        cv2.rectangle(im, (x - 50, y - 50), (x + w + 50, y + h + 50), (225, 0, 0), 2)
+        img_id, conf = recognizer.predict(gray[y:y + h, x:x + w])
+        if conf &gt; 50:
+            if img_id ==8000:
+                img_id = &apos;fuqiang&apos;
+            elif img_id == 2:
+                img_id = &apos;ghost&apos;
+        else:
+            img_id = &quot;Unknown&quot;
+        # cv2.cv.PutText(cv2.cv.fromarray(im), str(Id), (x, y + h), font, 255)
+        cv2.putText(im, str(img_id), (x, y + h), font, 0.55, (0, 255, 0), 1)
+    cv2.imshow(&apos;im&apos;, im)
+    if cv2.waitKey(10) &amp; 0xFF == ord(&apos;q&apos;):
+        break
+
+cam.release()
+cv2.destroyAllWindows()
+
 </code></pre>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><p><code></code> bash<br>$ hexo server</p>
-<pre><code>
-More info: [Server](https://hexo.io/docs/server.html)
-
-### Generate static files
-
-``` bash
-$ hexo generate
-</code></pre><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy
-</code></pre>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
                 <source type="audio/mpeg" src="">
