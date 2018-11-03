@@ -57,7 +57,7 @@ tags:linux##stat
             <hr>
 <p>title: Linux一<br>date: 2018-11-02 21:59:45</p>
 <h2 id="tags-linux"><a href="#tags-linux" class="headerlink" title="tags:linux"></a>tags:linux</h2><p>##stat</p>
-<p><code>[root@vultr lesson4]# stat temp
+<pre><code>[root@vultr lesson4]# stat temp
   File: ‘temp’
   Size: 8656          Blocks: 24         IO Block: 4096   regular file
 Device: fd01h/64769d    Inode: 384003      Links: 1
@@ -65,8 +65,8 @@ Access: (0755/-rwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
 Access: 2018-10-12 18:28:11.450510618 +0800
 Modify: 2018-10-12 18:27:56.579434961 +0800
 Change: 2018-10-12 18:27:56.579434961 +0800
- Birth: -</code></p>
-<p>可以看到这个文件的详细信息。</p>
+ Birth: -
+</code></pre><p>可以看到这个文件的详细信息。</p>
 <p>##ls -ai (all inodes)</p>
 <pre><code>[root@vultr lesson4]# ls -ai
 384002 .  384001 ..  384004 1.c  384003 temp  384005 tempfile.c
@@ -88,8 +88,7 @@ drwxr-xr-x  2 root root     4096 Jul 21 06:38 alternatives
 cp: overwrite ‘/dev/console’? y
 [root@vultr dev]# cp /linux/lesson4/1.c /dev/stdout
 cp: overwrite ‘/dev/stdout’? y
-</code></pre><pre><code>#include&lt;stdio.h&gt;
-
+#include&lt;stdio.h&gt;
 int main()
 {
     int i;
