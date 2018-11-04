@@ -57,57 +57,61 @@ tags:linux##stat
             <hr>
 <p>title: Linux一<br>date: 2018-11-02 21:59:45</p>
 <h2 id="tags-linux"><a href="#tags-linux" class="headerlink" title="tags:linux"></a>tags:linux</h2><p>##stat</p>
-<pre><code>[root@vultr lesson4]# stat temp
+<pre><code class="python">[root@vultr lesson4]<span class="comment"># stat temp</span>
   File: ‘temp’
-  Size: 8656          Blocks: 24         IO Block: 4096   regular file
-Device: fd01h/64769d    Inode: 384003      Links: 1
-Access: (0755/-rwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
-Access: 2018-10-12 18:28:11.450510618 +0800
-Modify: 2018-10-12 18:27:56.579434961 +0800
-Change: 2018-10-12 18:27:56.579434961 +0800
+  Size: <span class="number">8656</span>          Blocks: <span class="number">24</span>         IO Block: <span class="number">4096</span>   regular file
+Device: fd01h/<span class="number">64769</span>d    Inode: <span class="number">384003</span>      Links: <span class="number">1</span>
+Access: (<span class="number">0755</span>/-rwxr-xr-x)  Uid: (    <span class="number">0</span>/    root)   Gid: (    <span class="number">0</span>/    root)
+Access: <span class="number">2018</span><span class="number">-10</span><span class="number">-12</span> <span class="number">18</span>:<span class="number">28</span>:<span class="number">11.450510618</span> +<span class="number">0800</span>
+Modify: <span class="number">2018</span><span class="number">-10</span><span class="number">-12</span> <span class="number">18</span>:<span class="number">27</span>:<span class="number">56.579434961</span> +<span class="number">0800</span>
+Change: <span class="number">2018</span><span class="number">-10</span><span class="number">-12</span> <span class="number">18</span>:<span class="number">27</span>:<span class="number">56.579434961</span> +<span class="number">0800</span>
  Birth: -
-</code></pre><p>可以看到这个文件的详细信息。</p>
+</code></pre>
+<p>可以看到这个文件的详细信息。</p>
 <p>##ls -ai (all inodes)</p>
-<pre><code>[root@vultr lesson4]# ls -ai
-384002 .  384001 ..  384004 1.c  384003 temp  384005 tempfile.c
-</code></pre><p>##ls -l</p>
-<pre><code>[root@vultr etc]# ls -l
-total 1364
--rw-r--r--  1 root root        4 Oct 19 11:32 aa.txt
--rw-r--r--  1 root root       16 Jun  6 05:42 adjtime
--rw-r--r--  1 root root     1518 Jun  7  2013 aliases
--rw-r--r--  1 root root    12288 Jun  6 05:45 aliases.db
-drwxr-xr-x  2 root root     4096 Jul 21 06:38 alternatives
--rw-------  1 root root      541 Apr 11  2018 anacrontab
--rw-r--r--  1 root root       55 Apr 11  2018 asound.conf
-</code></pre><p>第一段块设备器或字符设备器<br>第二段属主的权限，属主所在的组的权限，其他用户的权限<br>第三段属主<br>第四段属主所在的组<br>第五段时间<br>第六段文件名</p>
+<pre><code class="python">[root@vultr lesson4]<span class="comment"># ls -ai</span>
+<span class="number">384002</span> .  <span class="number">384001</span> ..  <span class="number">384004</span> <span class="number">1.</span>c  <span class="number">384003</span> temp  <span class="number">384005</span> tempfile.c
+</code></pre>
+<p>##ls -l</p>
+<pre><code class="python">[root@vultr etc]<span class="comment"># ls -l</span>
+total <span class="number">1364</span>
+-rw-r--r--  <span class="number">1</span> root root        <span class="number">4</span> Oct <span class="number">19</span> <span class="number">11</span>:<span class="number">32</span> aa.txt
+-rw-r--r--  <span class="number">1</span> root root       <span class="number">16</span> Jun  <span class="number">6</span> <span class="number">05</span>:<span class="number">42</span> adjtime
+-rw-r--r--  <span class="number">1</span> root root     <span class="number">1518</span> Jun  <span class="number">7</span>  <span class="number">2013</span> aliases
+-rw-r--r--  <span class="number">1</span> root root    <span class="number">12288</span> Jun  <span class="number">6</span> <span class="number">05</span>:<span class="number">45</span> aliases.db
+drwxr-xr-x  <span class="number">2</span> root root     <span class="number">4096</span> Jul <span class="number">21</span> <span class="number">06</span>:<span class="number">38</span> alternatives
+-rw-------  <span class="number">1</span> root root      <span class="number">541</span> Apr <span class="number">11</span>  <span class="number">2018</span> anacrontab
+-rw-r--r--  <span class="number">1</span> root root       <span class="number">55</span> Apr <span class="number">11</span>  <span class="number">2018</span> asound.conf
+</code></pre>
+<p>第一段块设备器或字符设备器<br>第二段属主的权限，属主所在的组的权限，其他用户的权限<br>第三段属主<br>第四段属主所在的组<br>第五段时间<br>第六段文件名</p>
 <p>##cp /linux/lesson4/1.c /dev/console</p>
 <p>##cp /linux/lesson4/1.c /dev/stdout</p>
 <p>这两命令需要一起讲</p>
-<pre><code>[root@vultr dev]# cp /linux/lesson4/1.c /dev/console
+<pre><code class="python">[root@vultr dev]<span class="comment"># cp /linux/lesson4/1.c /dev/console</span>
 cp: overwrite ‘/dev/console’? y
-[root@vultr dev]# cp /linux/lesson4/1.c /dev/stdout
+[root@vultr dev]<span class="comment"># cp /linux/lesson4/1.c /dev/stdout</span>
 cp: overwrite ‘/dev/stdout’? y
-#include&lt;stdio.h&gt;
+<span class="comment">#include&lt;stdio.h&gt;</span>
 int main()
 {
     int i;
     char *s();
-    char ru[100];
+    char ru[<span class="number">100</span>];
     srand(time(NULL));
 
-    for(int j=0;j&lt;100;j++)
+    <span class="keyword">for</span>(int j=<span class="number">0</span>;j&lt;<span class="number">100</span>;j++)
     {
-        i=rand()%4+97;
+        i=rand()%<span class="number">4</span>+<span class="number">97</span>;
         ru[j]=(char)i;
 
-        printf(&quot;%c\n&quot;,ru[j]);
+        printf(<span class="string">"%c\n"</span>,ru[j]);
     }
     s=ru;
-    return 0;
+    <span class="keyword">return</span> <span class="number">0</span>;
 
 }
-</code></pre><p>##st_mode</p>
+</code></pre>
+<p>##st_mode</p>
 <p>##umask</p>
 <p>##echo “hello,markdown!!!” &gt; test.txt</p>
 <p>##chown</p>
