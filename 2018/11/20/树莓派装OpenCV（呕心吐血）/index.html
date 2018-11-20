@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kevin-onepiece</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="kevin-onepiece,"> 
+    <meta name="description" content="第0步装好系统(我的身份是pi,路径是/home/pi)第一步升级python12sudo apt-get updatesudo apt-get upgrade
+可以看到更新之后已经帮我们下载好了p,"> 
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="Kevin-onepiece" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">树莓派装OpenCV详细版</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">树莓派装OpenCV详细版</h1>
+        <div class="stuff">
+            <span>十一月 20, 2018</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/树莓派-OpenCV/">树莓派 OpenCV</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h4 id="第0步装好系统-我的身份是pi-路径是-home-pi"><a href="#第0步装好系统-我的身份是pi-路径是-home-pi" class="headerlink" title="第0步装好系统(我的身份是pi,路径是/home/pi)"></a>第0步装好系统(我的身份是pi,路径是/home/pi)</h4><h4 id="第一步升级python"><a href="#第一步升级python" class="headerlink" title="第一步升级python"></a>第一步升级python</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
+<p>可以看到更新之后已经帮我们下载好了python3.5,所以我们只需要将软链接指向python3.5即可。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">python -V</span><br><span class="line">pip -V</span><br><span class="line">sudo rm /usr/bin/python</span><br><span class="line">sudo ln -s /usr/bin/python3<span class="number">.5</span> /usr/bin/python</span><br><span class="line">python -<span class="keyword">void</span></span><br><span class="line">pip -V</span><br></pre></td></tr></table></figure></p>
+<h4 id="第二步拓展空间"><a href="#第二步拓展空间" class="headerlink" title="第二步拓展空间"></a>第二步拓展空间</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo raspi-config</span><br><span class="line"><span class="number">7</span> Advanced Options</span><br><span class="line">A1 Expand Filesystem</span><br></pre></td></tr></table></figure>
+<p>重启</p>
+<h4 id="第三步安装依赖包"><a href="#第三步安装依赖包" class="headerlink" title="第三步安装依赖包"></a>第三步安装依赖包</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 安装build-essential、cmake、git和pkg-config</span></span><br><span class="line">sudo apt-get install build-essential cmake git pkg-config</span><br><span class="line"><span class="comment">// 安装jpeg格式图像工具包</span></span><br><span class="line">sudo apt-get install libjpeg8-dev</span><br><span class="line"><span class="comment">// 安装tif格式图像工具包</span></span><br><span class="line">sudo apt-get install libtiff5-dev</span><br><span class="line"><span class="comment">// 安装JPEG-2000图像工具包</span></span><br><span class="line">sudo apt-get install libjasper-dev</span><br><span class="line"><span class="comment">// 安装png图像工具包</span></span><br><span class="line">sudo apt-get install libpng12-dev</span><br><span class="line"><span class="comment">//安装视频流包</span></span><br><span class="line"><span class="comment">//sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev会报依赖包各种错误，所以用aptitude下载。</span></span><br><span class="line">sudo aptitude install libavcodec-dev</span><br><span class="line">sudo aptitude install libavformat-dev</span><br><span class="line">sudo aptitude install libswscale-dev</span><br><span class="line">sudo aptitude install libv4l-dev</span><br><span class="line">sudo aptitude install libgtk2<span class="number">.0</span></span><br><span class="line">sudo apt-get install libatlas-base-dev gfortran</span><br></pre></td></tr></table></figure>
+<h4 id="下载OpenCV，OpenCV-contrib"><a href="#下载OpenCV，OpenCV-contrib" class="headerlink" title="下载OpenCV，OpenCV_contrib"></a>下载OpenCV，OpenCV_contrib</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 下载OpenCV</span></span><br><span class="line">wget -O opencv<span class="number">-3.4</span><span class="number">.1</span>.zip https:<span class="comment">//github.com/Itseez/opencv/archive/3.4.1.zip</span></span><br><span class="line"><span class="comment">// 解压OpenCV</span></span><br><span class="line">unzip opencv<span class="number">-3.4</span><span class="number">.1</span>.zip</span><br><span class="line"><span class="comment">// 下载OpenCV_contrib库：</span></span><br><span class="line">wget -O opencv_contrib<span class="number">-3.4</span><span class="number">.1</span>.zip https:<span class="comment">//github.com/Itseez/opencv_contrib/archive/3.4.1.zip</span></span><br><span class="line"><span class="comment">// 解压OpenCV_contrib库：</span></span><br><span class="line">unzip opencv_contrib<span class="number">-3.4</span><span class="number">.1</span>.zip</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd opencv<span class="number">-3.4</span><span class="number">.1</span></span><br><span class="line">mkdir release</span><br><span class="line">cd release</span><br></pre></td></tr></table></figure>
+<h4 id="第四步预编译，编译安装OpenCV，OpenCV-contrib"><a href="#第四步预编译，编译安装OpenCV，OpenCV-contrib" class="headerlink" title="第四步预编译，编译安装OpenCV，OpenCV_contrib"></a>第四步预编译，编译安装OpenCV，OpenCV_contrib</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo cmake -D CMAKE_BUILD_TYPE=RELEASE \</span><br><span class="line">    -D CMAKE_INSTALL_PREFIX=/usr/local \</span><br><span class="line">    -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib<span class="number">-3.4</span><span class="number">.1</span>/modules ..</span><br><span class="line">sudo make &amp;&amp; make install &amp;&amp; ldconfig</span><br></pre></td></tr></table></figure>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                        <li title="1" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="" data-cs="" data-r="" data-o="" data-a="" data-d="false">查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
